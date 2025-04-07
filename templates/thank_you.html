@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thank You!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .star-display {
+            color: #FFD700;
+            font-size: 1.2em;
+        }
+        .feedback {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container art-gallery">
+    {% for response in responses %}
+        <div class="art-card">
+            <img src="{{ url_for('static', filename='images/' + (response.image if response.image else 'default.jpg')) }}" alt="{{ response.title }}" class="art-img">
+            <h2>{{ response.title }}</h2>
+
+            <p><strong>Rating:</strong>
+                {% if response.rating %}
+                    <span class="star-display">
+                        {% for i in range(1, 6) %}
+                            {% if i <= response.rating|int %}
+                                &#9733;
+                            {% else %}
+                                &#9734;
+                            {% endif %}
+                        {% endfor %}
+                        ({{ response.rating }}/5)
+                    </span>
+                {% else %}
+                    Not rated
+                {% endif %}
+            </p>
+
+            <p><strong>Feedback:</strong>
+                {% if response.feedback %}
+                    <span class="feedback">"{{ response.feedback }}"</span>
+                {% else %}
+                    No comments
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rate Artworks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>🎨 Rate These Artworks</h1>
+    <form method="POST" action="/rate">
+    <div class="art-gallery">
+        {% for art in artworks %}
+        <div class="art-card">
+            <h2>{{ art.title }}</h2>
+            <img src="{{ url_for('static', filename='images/' + (art.image if art.image else 'default.jpg')) }}" alt="{{ art.title }}" class="art-img">
+
+            <label>Rate this artwork:</label>
+            <div class="star-rating">
+                {% for i in range(5, 0, -1) %}
+                <input type="radio" id="star{{ i }}_{{ art.id }}" name="rating_{{ art.id }}" value="{{ i }}" required>
+                <label for="star{{ i }}_{{ art.id }}">&#9733;</label>
+                {% endfor %}
+            </div>
+
+            <textarea name="feedback_{{ art.id }}" placeholder="What do you think about '{{ art.title }}'?" required></textarea>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="button">
+        <button type="submit">Submit Feedback</button>
+    </div>
+</form>
+</div>
+
+</body>
+</html>
